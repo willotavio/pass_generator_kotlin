@@ -26,18 +26,30 @@ class MainActivity : AppCompatActivity() {
         val btnClear: Button = findViewById(R.id.btn_clear)
         val passwordField: TextInputEditText = findViewById(R.id.password_field)
 
+        val lengthField: TextInputEditText = findViewById(R.id.length_field)
+
         val checkLowercase: CheckBox = findViewById(R.id.check_lowercase)
         val checkUppercase: CheckBox = findViewById(R.id.check_uppercase)
         val checkNumbers: CheckBox = findViewById(R.id.check_numbers)
         val checkSymbols: CheckBox = findViewById(R.id.check_symbols)
 
         btnGenerate.setOnClickListener {
-            val password = generatePassword(16,
-                checkLowercase.isChecked,
-                checkUppercase.isChecked,
-                checkNumbers.isChecked,
-                checkSymbols.isChecked)
-            passwordField.setText(password)
+            if(lengthField.text.isNullOrEmpty()) {
+                Toast.makeText(this, "Define a length", Toast.LENGTH_LONG).show()
+            }
+            else {
+                try {
+                    val length: Long = lengthField.text.toString().toLong()
+                    val password = generatePassword(length,
+                        checkLowercase.isChecked,
+                        checkUppercase.isChecked,
+                        checkNumbers.isChecked,
+                        checkSymbols.isChecked)
+                    passwordField.setText(password)
+                } catch(e: NumberFormatException) {
+                    Toast.makeText(this, "Invalid length", Toast.LENGTH_LONG).show()
+                }
+            }
         }
 
         btnClear.setOnClickListener {
@@ -46,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun generatePassword(length: Int,
+    fun generatePassword(length: Long,
                          hasLowercase: Boolean,
                          hasUppercase: Boolean,
                          hasNumbers: Boolean,
