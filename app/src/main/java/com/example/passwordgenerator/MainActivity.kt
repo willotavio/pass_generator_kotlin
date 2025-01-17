@@ -2,6 +2,7 @@ package com.example.passwordgenerator
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,9 +26,18 @@ class MainActivity : AppCompatActivity() {
         val btnClear: Button = findViewById(R.id.btn_clear)
         val passwordField: TextInputEditText = findViewById(R.id.password_field)
 
+        val checkLowercase: CheckBox = findViewById(R.id.check_lowercase)
+        val checkUppercase: CheckBox = findViewById(R.id.check_uppercase)
+        val checkNumbers: CheckBox = findViewById(R.id.check_numbers)
+        val checkSymbols: CheckBox = findViewById(R.id.check_symbols)
+
         btnGenerate.setOnClickListener {
-            val password = generatePassword(16)
-            passwordField.setText(generatePassword(16))
+            val password = generatePassword(16,
+                checkLowercase.isChecked,
+                checkUppercase.isChecked,
+                checkNumbers.isChecked,
+                checkSymbols.isChecked)
+            passwordField.setText(password)
         }
 
         btnClear.setOnClickListener {
@@ -36,13 +46,39 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun generatePassword(length: Int): String {
+    fun generatePassword(length: Int,
+                         hasLowercase: Boolean,
+                         hasUppercase: Boolean,
+                         hasNumbers: Boolean,
+                         hasSymbols: Boolean): String {
+        if(!hasLowercase && !hasUppercase && !hasNumbers && !hasSymbols) {
+            return "peido"
+        }
         val letters: String = "abcdefghijklmnopqrstuvwxyz"
+        val numbers: String = "123456789"
+        val symbols: String = "!@#$%&*()_"
         var password: String = ""
         var i: Int = 0
+
+        var type: Int
         while(i < length) {
-            password += letters[Random.nextInt(0, 25)]
-            i++
+            type = Random.nextInt(0, 4)
+            if(type == 0 && hasLowercase) {
+                password += letters[Random.nextInt(0, letters.length)]
+                i++
+            }
+            else if(type == 1 && hasUppercase) {
+                password += letters[Random.nextInt(0, letters.length)].uppercase()
+                i++
+            }
+            else if(type == 2 && hasNumbers) {
+                password += numbers[Random.nextInt(0, numbers.length)]
+                i++
+            }
+            else if(type == 3 && hasSymbols) {
+                password += symbols[Random.nextInt(0, symbols.length)]
+                i++
+            }
         }
         return password
     }

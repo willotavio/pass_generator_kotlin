@@ -10,6 +10,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Uppercase"
+        android:id="@+id/check_uppercase"
+        />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lowercase"
+        android:id="@+id/check_lowercase"
+        />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Numbers"
+        android:id="@+id/check_numbers"
+        />
+
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Symbols"
+        android:id="@+id/check_symbols"
+        />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
